@@ -1,0 +1,14 @@
+{
+  "name": "Yamama RFI Workspace",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "postCreateCommand": "python3 -m pip install -r requirements.txt",
+  "postStartCommand": "nohup python3 server.py > /tmp/yamama-rfi.log 2>&1 &",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Yamama RFI",
+      "onAutoForward": "openBrowser",
+      "visibility": "private"
+    }
+  }
+}
