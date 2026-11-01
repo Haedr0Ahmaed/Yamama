@@ -27,13 +27,24 @@ Open http://localhost:8000 in your local browser.
 
 ## Behavior
 
-- 42 log fields organized into request details, intervention, readiness, QC and closure.
-- One distinct source value is treated as fixed and repeated automatically. Blank cells do not count as values. RFI numbers increment from the master log.
-- Variable fields are closed dropdowns populated from the source log; only AREA / LOCATION is free text. Existing source spelling is retained. Date and time choices are also restricted to source values.
-- Hold/action, inspection result and rejection reason choices come from the original RFI form.
-- Empty source fields remain disabled until a source option is available.
-- Saved requests can be searched and edited. Data persists in data/entries.json.
-- Excel export adds saved requests after the final numbered source record in the log, retaining the original nine worksheets. The original template is never modified. The RFI Form sheet retains its original contents; it is not filled per new request.
-- This is a single-workspace application without user authentication. It is intended for local use, not public deployment.
+Only the first two worksheets are used: **RFI Form** is the output template and **log** supplies drawing and activity options and the next RFI number. Other worksheets are excluded from exports.
 
-The original workbook is included at data/template.xlsx. Back up data/entries.json to preserve entered records.
+- Discipline: **CIV**; inspection time: **12:00**; ITP item: **1**.
+- Inspection, submission and receipt dates use calendar pickers, allowing new dates.
+- Submitted by: **\*\*** / **Haedr Ahmaed** / **Dhiya Mahdi**. One submission date repeats across all three columns.
+- QC receipt: the two subcontractor name cells remain blank; Al-Yamama QC is **Haedr Ahmaed**, Sinoma QC is **Engr. Ga Zang Dong Zhi**. One receipt date repeats across all four columns.
+- **Area / Location** is free text. **Drawing No. & Rev No.** and **Inspection Activity / Description** are closed dropdowns from the log.
+- Subcontractor and ITR number repeat the current RFI template values. The remaining form sections retain their template values, with blank signatures.
+- Saved requests can be searched and edited. Each saved row has an **RFI Excel** download that fills the RFI Form for that record. The main export uses the latest saved record.
+- Export contains **RFI Form** and **log** only; saved requests are appended to the log. The original template remains unchanged.
+- Fixed values are enforced by the server as well as displayed read-only.
+
+Data persists in `data/entries.json`; keep a backup before deleting a Codespace. This is a single-workspace application without authentication, intended for local use or private Codespaces ports.
+
+## Validation
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+Checks cover fixed values, calendar date validation, drawing choices, populated form cells, shared dates and the two-sheet Excel export.
